@@ -3,49 +3,50 @@ function Install-SqlServerInstance {
     param (
         [Parameter(Mandatory=$true)]
         [string]$InstanceName,
-
-        [Parameter(Mandatory=$false)]
-        [string]$InstallerPath= "d:\setup.exe",
-
+        
         [Parameter(Mandatory=$true)]
-        [securestring]$SaPassword
+        [securestring]$SaPassword,
+        
+        [Parameter(Mandatory=$false)]
+        [string]$InstallerPath= "d:\setup.exe"
     )
 
-    Write-Host "Installing SQL Server instance: $InstanceName"
+    if (-not (Test-Path $InstallerPath)) {
+        Write-Host "Installer not found at $InstallerPath. Please make sure the installer is available at the specified path."
+        return
+    }
 
-    # Change the path to the installer according to your system
-    #get sql server 2019 installer path
-    $InstallerPath = "d:\setup.exe"
-    
-    # Install command
+    Write-Host "Installing SQL Server instance: $InstanceName"
+  
     $installCommand = "$InstallerPath /qs /ACTION=Install /FEATURES=SQLEngine /INSTANCENAME=$InstanceName /SQLSVCACCOUNT='NT AUTHORITY\SYSTEM' /SQLSYSADMINACCOUNTS='BUILTIN\Administrators' /AGTSVCACCOUNT='NT AUTHORITY\Network Service' /SAPWD=$SaPassword /TCPENABLED=1 /NPENABLED=0 /IACCEPTSQLSERVERLICENSETERMS"
     
-    # Run the install command
+    Write-Host "Executing command: $installCommand"
+
     Invoke-Expression $installCommand
 }
 
 function Uninstall-SqlServerInstance {
     param (
         [Parameter(Mandatory=$true)]
-        [string]$InstanceName
+        [string]$InstanceName,
+
+        [Parameter(Mandatory=$false)]
+        [string]$InstallerPath= "d:\setup.exe"
     )
 
-    Write-Host "Uninstalling SQL Server instance: $InstanceName"
-
-    # Change the path to the installer according to your system
-    #get sql server 2019 installer path
-    $InstallerPath = "d:\setup.exe"
+    if (-not (Test-Path $InstallerPath)) {
+        Write-Host "Installer not found at $InstallerPath. Please make sure the installer is available at the specified path."
+        return
+    }
     
-    # Install command
+    Write-Host "Uninstalling SQL Server instance: $InstanceName"
+    
     $Uninstallcommand = "$InstallerPath /ACTION=Uninstall /FEATURES=SQLEngine /INSTANCENAME=$InstanceName /Q"
     
-    # Run the install comman
-
     Invoke-Expression $Uninstallcommand
 }
 
-# Function to remove a SQL Server instance
-
-Install-SqlServerInstance -InstanceName 'SQLBOBBY' -InstallerPath "d:\setup.exe" -SaPassword "P@ssw0rd"
-#Uninstall-SqlServerInstance -InstanceName 'SQLBOBBY'
+#$SaPwd = ConvertTo-SecureString "P@ssw0rd" -AsPlainText -Force
+#Install-SqlServerInstance -InstanceName 'SMALLINSTANCE1' -InstallerPath "d:\setup.exe" -SaPassword $SaPwd
+#Uninstall-SqlServerInstance -InstanceName 'SMALLINSTANCE1'
 
