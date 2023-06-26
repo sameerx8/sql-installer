@@ -46,7 +46,7 @@ function Uninstall-SqlServerInstance {
     Invoke-Expression $Uninstallcommand
 }
 
-$SaPwd = ConvertTo-SecureString "P@ssw0rd" -AsPlainText -Force
-Install-SqlServerInstance -InstanceName 'SMALLINSTANCE1' -InstallerPath "d:\setup.exe" -SaPassword $SaPwd
-Uninstall-SqlServerInstance -InstanceName 'SMALLINSTANCE1' -InstallerPath "d:\setup.exe"
+#$SaPwd = ConvertTo-SecureString "P@ssw0rd" -AsPlainText -Force
+#Install-SqlServerInstance -InstanceName 'SMALLINSTANCE1' -InstallerPath "d:\setup.exe" -SaPassword $SaPwd
+#Uninstall-SqlServerInstance -InstanceName 'SMALLINSTANCE1' -InstallerPath "d:\setup.exe"
 
