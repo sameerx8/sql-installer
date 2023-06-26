@@ -7,8 +7,8 @@ function Install-SqlServerInstance {
         [Parameter(Mandatory=$true)]
         [securestring]$SaPassword,
         
-        [Parameter(Mandatory=$false)]
-        [string]$InstallerPath= "d:\setup.exe"
+        [Parameter(Mandatory=$true)]
+        [string]$InstallerPath
     )
 
     if (-not (Test-Path $InstallerPath)) {
@@ -30,8 +30,8 @@ function Uninstall-SqlServerInstance {
         [Parameter(Mandatory=$true)]
         [string]$InstanceName,
 
-        [Parameter(Mandatory=$false)]
-        [string]$InstallerPath= "d:\setup.exe"
+        [Parameter(Mandatory=$true)]
+        [string]$InstallerPath
     )
 
     if (-not (Test-Path $InstallerPath)) {
@@ -46,7 +46,7 @@ function Uninstall-SqlServerInstance {
     Invoke-Expression $Uninstallcommand
 }
 
-#$SaPwd = ConvertTo-SecureString "P@ssw0rd" -AsPlainText -Force
-#Install-SqlServerInstance -InstanceName 'SMALLINSTANCE1' -InstallerPath "d:\setup.exe" -SaPassword $SaPwd
-#Uninstall-SqlServerInstance -InstanceName 'SMALLINSTANCE1'
+$SaPwd = ConvertTo-SecureString "P@ssw0rd" -AsPlainText -Force
+Install-SqlServerInstance -InstanceName 'SMALLINSTANCE1' -InstallerPath "d:\setup.exe" -SaPassword $SaPwd
+Uninstall-SqlServerInstance -InstanceName 'SMALLINSTANCE1' -InstallerPath "d:\setup.exe"
 
